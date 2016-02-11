@@ -1,0 +1,11 @@
+[package]
+name = "pw_lab1"
+version = "0.1.0"
+authors = ["S2dentik"]
+
+[dependencies]
+
+winapi = "*"
+libc = "*"
+kernel32-sys = "*"
+user32-sys = "*"
