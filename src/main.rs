@@ -73,7 +73,7 @@ pub unsafe extern "system" fn windowProc(hwnd: HWND,
 
     match msg {
         winapi::winuser::WM_CREATE => {
-            let hInstance = user32::GetWindowLongA(hwnd, GWL_HINSTANCE) as HINSTANCE;
+            let hInstance = user32::GetWindowLongW(hwnd, GWL_HINSTANCE) as HINSTANCE;
             buttonDontPressMe = createHandle(0, "Button", "Don't press me",
                 WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON, 100, 200, 50, 20,
                 hwnd, Handle::Button, hInstance);
@@ -132,7 +132,7 @@ fn main() {
         user32::RegisterClassW(&wnd);
         let hwndDesktop = user32::GetDesktopWindow();
 
-        createHandle(0, windowName, "PW_Laboratory_Work_1", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+        createHandle(0, "PW_Laboratory_Work_1", windowName, WS_OVERLAPPEDWINDOW | WS_VISIBLE,
                      0, 0, 400, 400, hwndDesktop, Handle::Window, hInstance);
 
         let mut msg = winapi::winuser::MSG {
@@ -161,7 +161,7 @@ fn createHandle(dwExStyle: DWORD, lpClassName: &str, lpWindowName: &str, dwStyle
                 y: c_int, nWidth: c_int, nHeight: c_int, hWndParent: HWND, handle: Handle,
                 hInstance: HINSTANCE) -> HWND {
     unsafe {
-        return user32::CreateWindowExA(dwExStyle, lpClassName.as_ptr() as *mut _, lpWindowName.as_ptr() as *mut _, dwStyle,
+        return user32::CreateWindowExW(dwExStyle, toWstring(lpClassName), toWstring(lpWindowName), dwStyle,
                                        x, y, nWidth, nHeight, hWndParent, handle.value(), hInstance, std::ptr::null_mut())
     }
 }
